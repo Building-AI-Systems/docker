@@ -7,6 +7,11 @@ networks:
 
 services:
 
+  sensors_api:
+    image: riipeckx/bai-systems-smart-api-rest-python:latest
+    networks:
+      - backend
+
   web:
     image: b4bz/homer
     networks:
@@ -48,10 +53,10 @@ services:
 
   logstash:
     image: logstash:7.9.3
-    environment:
-      - monitoring.elasticsearch.hosts=http://elastic:9200
     volumes:
-      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config/logstash/pipelines/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./config/logstash/api.conf:/etc/logstash/conf.d/api.conf
     networks:
       - backend
     deploy:
