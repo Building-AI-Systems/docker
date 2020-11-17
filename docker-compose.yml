@@ -7,10 +7,58 @@ networks:
 
 services:
 
+  homer:
+    image: b4bz/homer
+    networks:
+      - traefik
+    volumes:
+      - /swarm/bai-systems/web/:/www/assets
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bai-systems-web.entrypoints=web"
+      - "traefik.http.routers.bai-systems-web.rule=Host(`bai-systems.cf`)"
+      - "traefik.http.routers.bai-systems-web.middlewares=redirect-https@file"
+      - "traefik.http.routers.bai-systems-web-https.tls=true"
+      - "traefik.http.routers.bai-systems-web-https.tls.certresolver=letsEncrypt"
+      - "traefik.http.routers.bai-systems-web-https.entrypoints=websecure"
+      - "traefik.http.routers.bai-systems-web-https.rule=Host(`bai-systems.cf`)"
+      - "traefik.http.services.bai-systems-web.loadbalancer.server.port=8080"
+      placement:
+        constraints:
+          - node.role == worker
+
   elastic:
     image: elasticsearch:7.9.3
     volumes:
-      - /swarm/bai-systems/el-data:/usr/share/elasticsearch/data
+      - /swarm/bai-systems/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.bai-systems-elastic.entrypoints=web"
+        - "traefik.http.routers.bai-systems-elastic.rule=Host(`elastic.bai-systems.cf`)"
+        - "traefik.http.routers.bai-systems-elastic.middlewares=redirect-https@file"
+        - "traefik.http.routers.bai-systems-elastic-https.tls=true"
+        - "traefik.http.routers.bai-systems-elastic-https.tls.certresolver=letsEncrypt"
+        - "traefik.http.routers.bai-systems-elastic-https.entrypoints=websecure"
+        - "traefik.http.routers.bai-systems-elastic-https.rule=Host(`elastic.bai-systems.cf`)"
+        - "traefik.http.services.bai-systems-elastic.loadbalancer.server.port=9200"
+
+  logstash:
+    image: logstash:7.9.3
+    environment:
+      - monitoring.elasticsearch.hosts=http://elastic:9200
+    volumes:
+      - /swarm/bai-systems/logstash:/usr/share/logstash/config/
     networks:
       - backend
     deploy:
@@ -20,14 +68,30 @@ services:
         constraints:
           - node.role == worker
 
-  logstash:
-    image: logstash:7.9.3
+  kibana:
+    image: kibana:7.9.3
     environment:
-      - monitoring.elasticsearch.hosts=http://elastic:9200
+      - elasticsearch.hosts=http://elastic:9200
     volumes:
-      - /swarm/bai-systems/logstash-config:/usr/share/logstash/config/
+      - /swarm/bai-systems/kibana:/usr/share/kibana/config/
     networks:
       - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.bai-systems-kibana.entrypoints=web"
+        - "traefik.http.routers.bai-systems-kibana.rule=Host(`kibana.bai-systems.cf`)"
+        - "traefik.http.routers.bai-systems-kibana.middlewares=redirect-https@file"
+        - "traefik.http.routers.bai-systems-kibana-https.tls=true"
+        - "traefik.http.routers.bai-systems-kibana-https.tls.certresolver=letsEncrypt"
+        - "traefik.http.routers.bai-systems-kibana-https.entrypoints=websecure"
+        - "traefik.http.routers.bai-systems-kibana-https.rule=Host(`kibana.bai-systems.cf`)"
+        - "traefik.http.services.bai-systems-kibana.loadbalancer.server.port=9200"
 
 
   
