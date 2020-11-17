@@ -37,7 +37,6 @@ services:
       - /swarm/bai-systems/elasticsearch:/usr/share/elasticsearch/data
     networks:
       - backend
-      - traefik
     deploy:
       mode: replicated
       replicas: 1
