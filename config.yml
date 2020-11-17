@@ -1,0 +1,81 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/icons for icons options
+
+title: "Building AI Systems"
+subtitle: ""
+logo: "assets/icons/bai-systems.png"
+# icon: "fas fa-skull-crossbones" # Optional icon
+
+header: true
+footer: false # set false if you want to hide it.
+
+# Optional theme customization
+theme: default
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link-hover: "#ffdd57"
+
+# Optional message
+# message:
+#   #url: https://b4bz.io
+#   style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+#   title: "Demo !"
+#   icon: "fa fa-grin"
+#   content: "This is a dummy homepage demo. <br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>"
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: "GitHub"
+    icon: "fab fa-github"
+    url: "https://github.com/Building-AI-Systems/"
+    target: "_blank" # optional html a tag target attribute
+
+# Services
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: "Applications"
+    icon: "fas fa-cloud"
+    items:
+      - name: "ElasticSearch"
+        logo: "assets/icons/elastic.png"
+        subtitle: "Manage data"
+        tag: "app"
+        url: "http://elastic.bai-systems.cf"
+        target: "_blank" # optional html a tag target attribute
+      - name: "Logstash"
+        logo: "assets/icons/logstash.png"
+        subtitle: "Aggregate data"
+        tag: "app"
+        url: "http://logstash.bai-systems.cf"
+        target: "_blank" # optional html a tag target attribute
+      - name: "Kibana"
+        logo: "assets/icons/kibana.png"
+        subtitle: "Visualize data"
+        tag: "app"
+        url: "http://kibana.bai-systems.cf"
+        target: "_blank" # optional html a tag target attribute
