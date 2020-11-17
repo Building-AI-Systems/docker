@@ -1,2 +1,2 @@
 # docker
-Docker images
+Docker images for Elasticsearch, Logstash and Grafana
