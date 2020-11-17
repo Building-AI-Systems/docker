@@ -7,7 +7,7 @@ networks:
 
 services:
 
-  homer:
+  web:
     image: b4bz/homer
     networks:
       - traefik
@@ -36,6 +36,7 @@ services:
       - /swarm/bai-systems/elasticsearch:/usr/share/elasticsearch/data
     networks:
       - backend
+      - traefik
     deploy:
       mode: replicated
       replicas: 1
@@ -53,29 +54,31 @@ services:
         - "traefik.http.routers.bai-systems-elastic-https.rule=Host(`elastic.bai-systems.cf`)"
         - "traefik.http.services.bai-systems-elastic.loadbalancer.server.port=9200"
 
-  logstash:
-    image: logstash:7.9.3
-    environment:
-      - monitoring.elasticsearch.hosts=http://elastic:9200
-    volumes:
-      - /swarm/bai-systems/logstash:/usr/share/logstash/config/
-    networks:
-      - backend
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == worker
+  # logstash:
+  #   image: logstash:7.9.3
+  #   environment:
+  #     - monitoring.elasticsearch.hosts=http://elastic:9200
+  #   volumes:
+  #     - /swarm/bai-systems/logstash:/usr/share/logstash/config/
+  #   networks:
+  #     - backend
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints:
+  #         - node.role == worker
 
   kibana:
     image: kibana:7.9.3
     environment:
-      - elasticsearch.hosts=http://elastic:9200
+      - ELASTICSEARCH_URL=http://elastic:9200
+      - ELASTICSEARCH_HOSTS=http://elastic:9200
     volumes:
-      - /swarm/bai-systems/kibana:/usr/share/kibana/config/
+      - /swarm/bai-systems/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     networks:
       - backend
+      - traefik
     deploy:
       mode: replicated
       replicas: 1
@@ -91,7 +94,4 @@ services:
         - "traefik.http.routers.bai-systems-kibana-https.tls.certresolver=letsEncrypt"
         - "traefik.http.routers.bai-systems-kibana-https.entrypoints=websecure"
         - "traefik.http.routers.bai-systems-kibana-https.rule=Host(`kibana.bai-systems.cf`)"
-        - "traefik.http.services.bai-systems-kibana.loadbalancer.server.port=9200"
-
-
-  
+        - "traefik.http.services.bai-systems-kibana.loadbalancer.server.port=5601"
