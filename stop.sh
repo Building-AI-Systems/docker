@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stack rm bai-systems
+docker stack rm bai-systems-elk

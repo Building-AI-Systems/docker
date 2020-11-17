@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stack deploy -c docker-compose.yml bai-systems
+docker stack deploy -c docker-compose.yml bai-systems-elk

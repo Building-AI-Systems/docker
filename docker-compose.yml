@@ -32,6 +32,8 @@ services:
 
   elastic:
     image: elasticsearch:7.9.3
+    environment:
+      - discovery.type=single-node
     volumes:
       - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - /swarm/bai-systems/elasticsearch:/usr/share/elasticsearch/data
