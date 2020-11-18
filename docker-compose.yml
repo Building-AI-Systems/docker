@@ -7,11 +7,6 @@ networks:
 
 services:
 
-  sensors_api:
-    image: riipeckx/bai-systems-smart-api-rest-python:latest
-    networks:
-      - backend
-
   elastic:
     image: elasticsearch:7.9.3
     volumes:
@@ -29,10 +24,7 @@ services:
   logstash:
     image: logstash:7.9.3
     volumes:
-      #- ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      #- ./config/logstash/pipelines/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./config/logstash/pipelines/:/usr/share/logstash/pipeline/
-      - /swarm/bai-systems/logstash/data:/usr/share/logstash/data
+      - ./config/logstash/:/usr/share/logstash/pipeline/
     networks:
       - backend
     deploy:
