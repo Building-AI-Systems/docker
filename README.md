@@ -16,3 +16,7 @@ docker stack deploy -c docker-compose.yml bai-systems-elk
 ## Describing the stack
 
 ![superImage](https://i.ibb.co/37sz5tp/ELKStack.png)
+
+## Special Thanks
+
+Thanks to [Abhishek](https://www.youtube.com/watch?v=6Kmd1bpDNXE) ♥ !

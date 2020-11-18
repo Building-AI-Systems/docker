@@ -1,9 +1,11 @@
 version: '3'
 
 networks:
-  backend:
+  bai-backend:
+    external: true
   traefik:
     external: true
+  backend:
 
 services:
 
@@ -24,8 +26,9 @@ services:
   logstash:
     image: logstash:7.9.3
     volumes:
-      - ./config/logstash/:/usr/share/logstash/pipeline/
+      - ./config/logstash/sensors_api.conf:/usr/share/logstash/pipeline/sensors_api.conf
     networks:
+      - bai-backend
       - backend
     deploy:
       mode: replicated
