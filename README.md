@@ -12,3 +12,7 @@ git clone https://github.com/Building-AI-Systems/elk-stack.git
 ```bash
 docker stack deploy -c docker-compose.yml bai-systems-elk
 ```
+
+## Describing the stack
+
+![superImage](https://i.ibb.co/37sz5tp/ELKStack.png)
