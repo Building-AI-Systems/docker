@@ -12,29 +12,6 @@ services:
     networks:
       - backend
 
-  web:
-    image: b4bz/homer
-    networks:
-      - traefik
-    volumes:
-      - /swarm/bai-systems/web/:/www/assets
-    deploy:
-      mode: replicated
-      replicas: 1
-      labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.bai-systems-web.entrypoints=web"
-      - "traefik.http.routers.bai-systems-web.rule=Host(`bai-systems.cf`)"
-      - "traefik.http.routers.bai-systems-web.middlewares=redirect-https@file"
-      - "traefik.http.routers.bai-systems-web-https.tls=true"
-      - "traefik.http.routers.bai-systems-web-https.tls.certresolver=letsEncrypt"
-      - "traefik.http.routers.bai-systems-web-https.entrypoints=websecure"
-      - "traefik.http.routers.bai-systems-web-https.rule=Host(`bai-systems.cf`)"
-      - "traefik.http.services.bai-systems-web.loadbalancer.server.port=8080"
-      placement:
-        constraints:
-          - node.role == worker
-
   elastic:
     image: elasticsearch:7.9.3
     volumes:
@@ -52,9 +29,9 @@ services:
   logstash:
     image: logstash:7.9.3
     volumes:
-      - ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./config/logstash/pipelines/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./config/logstash/api.conf:/etc/logstash/conf.d/api.conf
+      #- ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      #- ./config/logstash/pipelines/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./config/logstash/pipelines/:/usr/share/logstash/pipeline/
       - /swarm/bai-systems/logstash/data:/usr/share/logstash/data
     networks:
       - backend
