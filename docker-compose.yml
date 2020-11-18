@@ -68,7 +68,7 @@ services:
   kibana:
     image: kibana:7.9.3
     volumes:
-      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./config/kibana/kibana.yml.local:/usr/share/kibana/config/kibana.yml
     networks:
       - backend
       - traefik
